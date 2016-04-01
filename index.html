@@ -62,6 +62,8 @@
 		}
 
 	</style>
+	<script src="lowLag.js"></script>
+	<script src="js/soundmanager2.js"></script>
 	</head>
 	<body>
 		<div id="internetPiano">
@@ -139,18 +141,22 @@
 
 			}
 
+			function getFileName(i){
+				return 'noises/test_' + i + '.wav'
+			}
 
 			function playNoise(halfStep){
 				if(halfStep == -1)//will need to fix later to allow negative half steps, but it'll work for now
 					return
 
-				console.log(halfStep)
+				lowLag.play(getFileName(halfStep))
 				//...
 			}
 
 			function toggleActive(id){
-				console.log(id)
-				clearTimeoutList()
+
+				if(!document.getElementById(id))
+					return
 				document.getElementById(id).classList.add('active-key')
 
 				setTimeout(function(){
@@ -158,6 +164,15 @@
 					document.getElementById(id).classList.remove('active-key')
 
 				}, activeLength)
+			}
+
+			lowLag.init()
+			loadNoises()
+
+			function loadNoises(){
+				for(var i = 0; i <= 12; i++)
+					lowLag.load(getFileName(i))
+				
 			}
 		</script>
 	</body>
