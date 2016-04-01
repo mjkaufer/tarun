@@ -1,23 +1,28 @@
 <html>
 	<head>
 	<style>
+		@import url(https://fonts.googleapis.com/css?family=Lato);
 		/*from http://jsfiddle.net/924sefae/6/*/
 		#internetPiano{
 			width: 100%;
 		}
 
 		body{
-			width: 800px;
-			height: 200px;
-			display: flex;
+			width: 100%;
+			
+			font-family: 'Lato', sans-serif;
+			text-align: center;
+			margin: 0 auto;
 		}
 
 		#kbd {
-			height: 100%;
+			height: 40%;
 			padding: 1%;
 			flex-flow: column;
 			display: flex;
 			flex: 4;
+			width: 50%;
+			margin: 0 auto;
 		}
 
 		#keys {
@@ -66,6 +71,9 @@
 	<script src="js/soundmanager2.js"></script>
 	</head>
 	<body>
+		<h1>Tarun</h1>
+		<h3>A Synthesizer for Tarun</h3>
+		<p>Use your keyboard or just click</p>
 		<div id="internetPiano">
 			<!--taken from http://jsfiddle.net/924sefae/6/, modified slightly-->
 			<div id="kbd">
@@ -85,14 +93,6 @@
 					<div id="u" class="note black">U</div>
 					<div id="j" class="note white">J</div>
 					<div id="k" class="note white">K</div>
-					<!--
-					<div id="o" class="note black">O</div>
-					<div id="l" class="note white">L</div>
-					<div id="p" class="note black">P</div>
-					<div id=";" class="note white">;</div>
-					<div id="[" class="note black">[</div>
-					<div id="'" class="note white">'</div>
-					-->
 
 				</div>
 
@@ -101,79 +101,10 @@
 
 		</div>
 
-		<script>
-			var keys = [].slice.call(document.getElementsByClassName('note')).map(function(e){
-				return e.id
-			});
+		<p>By <a href="http://github.com/mjkaufer">Matthew Kaufer</a></p> <p>Piano borrowed from <a href="http://jsfiddle.net/924sefae/6/">here</a></p>
 
-			var timeoutList = []
-			var activeLength = 100
+		<script src="js/script.js">
 
-			function clearTimeoutList(){
-				timeoutList.forEach(function(e){
-					clearTimeout(e)
-				})
-
-				timeoutList = []
-			}
-
-			[].slice.call(document.getElementsByClassName('note')).forEach(function(e){
-				e.onclick = function(ev){
-					playNoise(getHalfStep(ev.target.id))
-					toggleActive(ev.target.id)
-				}
-			})
-
-			function getHalfStep(key){
-				return keys.indexOf(key)
-			}
-
-			function keyCodeToCharacter(keyCode){//219
-				return String.fromCharCode(keyCode).toLowerCase()
-			}
-
-			document.onkeydown = function(e){
-				
-				var key = keyCodeToCharacter(e.which)
-				toggleActive(key)
-
-				playNoise(getHalfStep(key))
-
-			}
-
-			function getFileName(i){
-				return 'noises/test_' + i + '.wav'
-			}
-
-			function playNoise(halfStep){
-				if(halfStep == -1)//will need to fix later to allow negative half steps, but it'll work for now
-					return
-
-				lowLag.play(getFileName(halfStep))
-				//...
-			}
-
-			function toggleActive(id){
-
-				if(!document.getElementById(id))
-					return
-				document.getElementById(id).classList.add('active-key')
-
-				setTimeout(function(){
-
-					document.getElementById(id).classList.remove('active-key')
-
-				}, activeLength)
-			}
-
-			lowLag.init()
-			loadNoises()
-
-			function loadNoises(){
-				for(var i = 0; i <= 12; i++)
-					lowLag.load(getFileName(i))
-				
-			}
 		</script>
 	</body>
 </html>
