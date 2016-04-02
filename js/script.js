@@ -4,6 +4,11 @@ var keys = [].slice.call(document.getElementsByClassName('note')).map(function(e
 
 var timeoutList = []
 var activeLength = 100
+var shiftDown = false
+
+window.onkeydown = window.onkeyup = function(e){
+	shiftDown = e.shiftKey
+}
 
 function clearTimeoutList(){
 	timeoutList.forEach(function(e){
@@ -45,6 +50,9 @@ function playNoise(halfStep){
 	if(halfStep == -1)//will need to fix later to allow negative half steps, but it'll work for now
 		return
 
+	if(shiftDown)
+		halfStep -= 12
+
 	lowLag.play(getFileName(halfStep))
 	//...
 }
@@ -66,7 +74,9 @@ lowLag.init()
 loadNoises()
 
 function loadNoises(){
-	for(var i = 0; i <= 12; i++)
+	for(var i = 0; i <= 12; i++){
 		lowLag.load(getFileName(i))
+		i != 0 && lowLag.load(getFileName(-i))
+	}
 	
 }
